@@ -2,6 +2,9 @@
 
 A sophisticated multi-agent conversation system that simulates realistic budget allocation discussions between political, citizen, and treasury representatives using AI agents powered by OpenAI's language models.
 
+<img width="1083" height="540" alt="Screenshot 2025-12-11 at 9 43 05 PM" src="https://github.com/user-attachments/assets/6f3fc20f-6e40-4ed6-9896-70ffeef020d3" />
+
+
 ## AI Concepts Learned
 
 ### 1. **Multi-Agent Systems (MAS)**

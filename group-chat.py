@@ -45,14 +45,15 @@ print("Politician, Citizen, and Treasury Official discuss budget allocation.")
 print("---------------------------------------------------------------------")
 
 
-async def run_group_chat(rounds:int):
+async def run_group_chat(rounds: int):
     # Initial task message
     initial_task = TextMessage(
-        content="Context: Budget planning committee meeting. Discuss and reach consensus on city budget allocation for the next fiscal year. The citizen wants social programs, the politician wants re-election appeal, and the treasury official wants budget balance.",
+        content="Context: Budget planning committee meeting. Reaching consensus is not mandatory. The citizen wants social programs, the politician wants re-election appeal, and the treasury official wants budget balance.",
         source="user",
     )
 
-    messages = [initial_task]
+    # Track conversation history for display purposes only
+    conversation_history = [initial_task]
     agents = [politician_agent, citizen_agent, treasury_agent]
 
     for round_num in range(rounds):
@@ -61,8 +62,13 @@ async def run_group_chat(rounds:int):
 
         for agent in agents:
             try:
-                response = await agent.on_messages(messages, cancellation_token=None)
-                messages.append(response.chat_message)
+                # Pass only the last message to the agent
+                # Agent maintains its own internal state between calls
+                new_messages = [conversation_history[-1]]
+                response = await agent.on_messages(
+                    new_messages, cancellation_token=None
+                )
+                conversation_history.append(response.chat_message)
                 print(f"\n{agent.name}:\n{response.chat_message.content}\n")
 
                 # Check if agent wants to terminate
@@ -77,7 +83,7 @@ async def run_group_chat(rounds:int):
             print("\nAll agents have reached consensus. Conversation concluded.")
             break
 
-    return messages
+    return conversation_history
 
 
 print()

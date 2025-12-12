@@ -2,7 +2,15 @@
 
 A sophisticated multi-agent conversation system that simulates realistic budget allocation discussions between political, citizen, and treasury representatives using AI agents powered by OpenAI's language models.
 
-![Two way communication](<Screenshot 2025-12-12 at 11.23.03 AM.png>)
+## Screenshots/Demo
+
+### Group Chat
+
+![Group Chat](./images/gradio-ui.png)
+
+### Two way communication
+
+![Two way communication](./images/two-way.png)
 
 ## AI Concepts Learned
 
@@ -31,6 +39,7 @@ A sophisticated multi-agent conversation system that simulates realistic budget 
 | --------------- | ------------------------------------------------------------------------------ |
 | `two-way.py`    | 2-agent system (Politician, Citizen) - 4 turns, sequential responses           |
 | `group-chat.py` | 3-agent system (Politician, Citizen, Treasury) - 3 rounds, consensus detection |
+| `ui.py`         | Gradio web interface for human-in-the-loop interaction with 3 agents           |
 | `prompt.py`     | System prompts for all agents and initial task context                         |
 | `config.py`     | OpenAI API configuration and environment setup                                 |
 | `helper.py`     | Utility functions for output formatting                                        |
@@ -38,9 +47,11 @@ A sophisticated multi-agent conversation system that simulates realistic budget 
 ### _NOTE_ - _Agent is not thread safe and agent maintains state between calls so do not pass entire conversation history._
 
 This fix saved lot of tokens, api calls and $$$.
-![alt text](<Screenshot 2025-12-12 at 11.28.53 AM.png>)
+![Optimization](./images/save-money.png)
 
 ## Installation & Usage
+
+### CLI Mode (Terminal)
 
 ```bash
 # Create virtual environment
@@ -57,8 +68,30 @@ python two-way.py
 python group-chat.py
 ```
 
+### Web UI Mode (Gradio - Human-in-the-Loop)
+
+```bash
+# Activate virtual environment (if not already active)
+source venv/bin/activate
+
+# Launch web interface
+python ui.py
+```
+
+Then open your browser to **http://localhost:7860**
+
+#### Web UI Features:
+
+- **Conversation History** (Top): Real-time display of all agent and human messages
+- **User Message Input** (Bottom): Text box to submit messages to the agents
+- **Submit Message Button**: Send your message and trigger agent responses
+- **Start Round Button**: Begin a new round of agent discussion without human input
+- **Terminate Chat Button**: Stop the conversation immediately
+- **Reset Chat Button**: Clear history and start fresh conversation
+- **Agent Response Display**: View the most recent agent outputs
+
 ## Requirements
 
 - Python 3.9+
-- OpenAI API key (stored in .env file)
+- OpenAI API key (stored in `.env` file)
 - See `requirements.txt` for complete dependencies

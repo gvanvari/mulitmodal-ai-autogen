@@ -2,9 +2,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-import asyncio
 import os
-import random
 
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.messages import TextMessage
@@ -34,49 +32,50 @@ citizen_agent = AssistantAgent(
 
 print(f"Agent '{citizen_agent.name}' created (using OpenAI).")
 
-# treasury_agent = autogen.ConversableAgent(
-#     name = "City_Treasury_Official_OpenAI",
-#     system_message = treasury_prompt,
-#     llm_config = llm_config_openai,  # Assign the OpenAI config
-#     human_input_mode = "NEVER")
-
-# print(f"Agent '{treasury_agent.name}' created (using OpenAI).")
-
 print("--- Starting Agent Conversation (OpenAI Only) ---")
 print("Politician starting conversation Max Turns = 4")
 print("--------------------------------------------------")
 
-async def run_conversation():
-    # Create initial message
-    messages = [TextMessage(content=initial_task_message, source="user")]
+import asyncio
 
-    # Simulate conversation with max 4 turns
+
+async def run_conversation():
+    # Initialize - agents maintain internal state
+    conversation_history = [
+        TextMessage(content=initial_task_message, source="user")
+    ]
+
     for turn in range(4):
         print(f"\n--- Turn {turn + 1} ---")
 
-        # Politician responds
-        response = await politician_agent.on_messages(messages, cancellation_token=None)
-        messages.append(response.chat_message)
+        # Politician responds to last message only
+        new_messages = [conversation_history[-1]]
+        response = await politician_agent.on_messages(
+            new_messages, cancellation_token=None
+        )
+        conversation_history.append(response.chat_message)
         print(f"\n{politician_agent.name}:\n{response.chat_message.content}\n")
 
-        # Check for termination
         if "TERMINATE" in response.chat_message.content:
             print("Conversation terminated by politician.")
             break
 
-        # Citizen responds
-        response = await citizen_agent.on_messages(messages, cancellation_token=None)
-        messages.append(response.chat_message)
+        # Citizen responds to last message only
+        new_messages = [conversation_history[-1]]
+        response = await citizen_agent.on_messages(
+            new_messages, cancellation_token=None
+        )
+        conversation_history.append(response.chat_message)
         print(f"\n{citizen_agent.name}:\n{response.chat_message.content}\n")
 
-        # Check for termination
         if "TERMINATE" in response.chat_message.content:
             print("Conversation terminated by citizen.")
             break
 
 
+print()
+
+asyncio.run(run_conversation())
+
 print("\n--------------------------------------------------")
 print("--- Conversation Ended (OpenAI Only) ---")
-
-# Run the async conversation
-asyncio.run(run_conversation())

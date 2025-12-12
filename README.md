@@ -2,7 +2,7 @@
 
 A sophisticated multi-agent conversation system that simulates realistic budget allocation discussions between political, citizen, and treasury representatives using AI agents powered by OpenAI's language models.
 
-<img width="1083" height="540" alt="Screenshot 2025-12-11 at 9 43 05 PM" src="https://github.com/user-attachments/assets/6f3fc20f-6e40-4ed6-9896-70ffeef020d3" />
+![Two way communication](<Screenshot 2025-12-12 at 11.23.03 AM.png>)
 
 ## AI Concepts Learned
 
@@ -34,6 +34,11 @@ A sophisticated multi-agent conversation system that simulates realistic budget 
 | `prompt.py`     | System prompts for all agents and initial task context                         |
 | `config.py`     | OpenAI API configuration and environment setup                                 |
 | `helper.py`     | Utility functions for output formatting                                        |
+
+### _NOTE_ - _Agent is not thread safe and agent maintains state between calls so do not pass entire conversation history._
+
+This fix saved lot of tokens, api calls and $$$.
+![alt text](<Screenshot 2025-12-12 at 11.28.53 AM.png>)
 
 ## Installation & Usage
 

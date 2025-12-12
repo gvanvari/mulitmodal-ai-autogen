@@ -45,7 +45,7 @@ print("Politician, Citizen, and Treasury Official discuss budget allocation.")
 print("---------------------------------------------------------------------")
 
 
-async def run_group_chat():
+async def run_group_chat(rounds:int):
     # Initial task message
     initial_task = TextMessage(
         content="Context: Budget planning committee meeting. Discuss and reach consensus on city budget allocation for the next fiscal year. The citizen wants social programs, the politician wants re-election appeal, and the treasury official wants budget balance.",
@@ -54,9 +54,8 @@ async def run_group_chat():
 
     messages = [initial_task]
     agents = [politician_agent, citizen_agent, treasury_agent]
-    max_rounds = 6
 
-    for round_num in range(max_rounds):
+    for round_num in range(rounds):
         print(f"\n--- Round {round_num + 1} ---")
         all_terminated = True
 
@@ -84,7 +83,8 @@ async def run_group_chat():
 print()
 
 # Run the group chat
-messages = asyncio.run(run_group_chat())
+rounds = 3
+messages = asyncio.run(run_group_chat(rounds))
 
 print("---------------------------------------------------------------------")
 print("--- Conversation Ended ---")

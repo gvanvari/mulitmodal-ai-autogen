@@ -2,10 +2,12 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+import asyncio
 import os
 import random
 
 from autogen_agentchat.agents import AssistantAgent
+from autogen_agentchat.messages import TextMessage
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
 
@@ -43,11 +45,6 @@ print(f"Agent '{citizen_agent.name}' created (using OpenAI).")
 print("--- Starting Agent Conversation (OpenAI Only) ---")
 print("Politician starting conversation Max Turns = 4")
 print("--------------------------------------------------")
-
-import asyncio
-
-from autogen_agentchat.messages import TextMessage
-
 
 async def run_conversation():
     # Create initial message
